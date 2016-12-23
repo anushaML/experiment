@@ -13,7 +13,8 @@ public class LexicalPermutation {
     System.out.println(get_ranks("aaa") + " == 0");
     System.out.println(get_ranks("abba") + " == 2");
 
-    System.out.println(get_ranks("caabbc") + " == 60");
+    System.out.println(get_ranks("cbbac") + " == 23");
+    System.out.println(get_ranks("axaelixe") + " == 915");
 
     System.out.println(get_ranks("axaelixedhtshsixbuzouqtjrkpyafthezfuehcovcqlbvmkbrwxhzrxymricmehktxepyxomxcx") + " == 1000000007");
   }
@@ -37,27 +38,33 @@ public class LexicalPermutation {
     int wordLength = word.length();
 
     Map<String, Integer> map = getUniqueLetters(word);
+    List<String> mapList = new LinkedList<>(map.keySet());
+    Collections.sort(mapList);
 
     Integer startIndex = 0;
-    Integer endIndex = combinationComplex(map);
-    if (endIndex.equals(MAX)) return MAX;
-    endIndex -= 1;
+    Integer endIndex = combinationComplex(map) - 1;
+    if (endIndex.equals(MAX - 1)) return MAX;
 
     String[] lettersArr = word.split("");
     for (int i = 0; i < wordLength; i++) {
       String letter = lettersArr[i];
       Integer mapLength = map.size();
       for(int j = 0; j < mapLength; j++) {
-        String sortedLetter = map.keySet().toArray(new String[map.size()])[j];
+        String sortedLetter = mapList.toArray(new String[map.size()])[j];
         if(sortedLetter.equals(letter)) {
           listOfSortedLetters.remove(sortedLetter);
           String tempWord = listAsString(listOfSortedLetters);
 
           map = getUniqueLetters(tempWord);
+          mapList = new LinkedList<>(map.keySet());
+          Collections.sort(mapList);
+
           endIndex = startIndex + combinationComplex(map) - 1;
           break;
         } else {
-          String tempWord = listAsString(listOfSortedLetters).substring(1);
+          List<String> tempList = new ArrayList<>(listOfSortedLetters);
+          tempList.remove(sortedLetter);
+          String tempWord = listAsString(tempList);
           Map<String, Integer> tempMap = getUniqueLetters(tempWord);
           startIndex += combinationComplex(tempMap);
         }
