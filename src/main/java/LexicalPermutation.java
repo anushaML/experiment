@@ -1,7 +1,5 @@
 package main.java;
 
-import scala.Int;
-
 import java.util.*;
 
 public class LexicalPermutation {
@@ -16,16 +14,6 @@ public class LexicalPermutation {
     System.out.println(get_ranks("abba") + " == 2");
 
     System.out.println(get_ranks("caabbc") + " == 60");
-
-    //print all permutations
-//    Set<String> set = permutations("caabbc");
-//    List<String> list = new ArrayList<>(set);
-//    Collections.sort(list);
-//    int i = 0;
-//    for(String s : list) {
-//      System.out.println(i + "-" + s);
-//      i++;
-//    }
 
     System.out.println(get_ranks("axaelixedhtshsixbuzouqtjrkpyafthezfuehcovcqlbvmkbrwxhzrxymricmehktxepyxomxcx") + " == 1000000007");
   }
@@ -111,55 +99,12 @@ public class LexicalPermutation {
 
   }
 
-//  // (n+m)! / n!m!
-//  private static Integer combinationComplex(Map<String, Integer> map) {
-//    Integer divideBy = 1;
-//    Integer total = 0;
-//
-//    String keyOfHighVal = null;
-//
-//    Integer highVal = 0;
-//    for(Map.Entry<String, Integer> entry : map.entrySet()) {
-//      if (entry.getValue() > highVal) {
-//        highVal = entry.getValue();
-//        keyOfHighVal = entry.getKey();
-//      }
-//    }
-//
-//    for(Map.Entry<String, Integer> entry : map.entrySet()) {
-//      Integer value = entry.getValue();
-//      total += value;
-//
-//      if (entry.getKey().equals(keyOfHighVal)) {
-////        System.out.println("skipped: " + value);
-//        continue;
-//      }
-////      System.out.println("divideBy: " + divideBy);
-//      divideBy = divideBy * permutation(value);
-//    }
-//
-//    Integer permTotal = 1;
-//
-//    for (int i = total; i > highVal; i--) {
-//      permTotal = permTotal * i;
-//    }
-//
-////    System.out.println("permTotal: " + permTotal);
-//
-//    Integer num = divideBy.equals(0) || permTotal.equals(0) ? MAX : permTotal / divideBy;
-//
-//    System.out.println("num: " + num);
-//
-//    return num;
-//  }
-
   // (n+m)! / n!m!
   private static Integer combinationComplex(Map<String, Integer> map) {
     Integer divideBy = 1;
     Integer total = 0;
     for(Integer value : map.values()) {
       total += value;
-//      System.out.println("divideBy: " + divideBy);
       divideBy = divideBy * permutation(value);
       if (divideBy.equals(0)) break;
     }
@@ -167,28 +112,7 @@ public class LexicalPermutation {
     Integer permTotal = permutation(total);
     Integer num = divideBy.equals(0) || permTotal.equals(0) ? MAX : permTotal / divideBy;
 
-//    System.out.println("num: " + num);
     return num;
-  }
-
-  // (n+m)! / n!m!
-  private static Integer combination(Integer n, Integer m) {
-    Integer mnE = 1;
-    Integer lesserE = 1;
-
-    Integer greater = m > n ? m : n;
-    Integer lesser = m > n ? n : m;
-
-    for (int i = n+m; i > greater; i--) {
-      mnE = mnE * i;
-    }
-
-
-    for (int i = n+m; i > lesser; i--) {
-      lesserE = lesserE * i;
-    }
-
-    return mnE / lesserE;
   }
 
   //n!
@@ -202,75 +126,6 @@ public class LexicalPermutation {
     return nE;
   }
 
-//  static int get_ranks(String word)
-//  {
-//    Integer numOfPerms = numOfPerms(word);
-//    System.out.println("nums: " + numOfPerms);
-//
-//    if (numOfPerms.equals(MAX)) return MAX;
-//
-//    String[] lettersArray = word.split("");
-//
-//    List<String> listOfSortedLetters = Arrays.asList(lettersArray);
-//    Collections.sort(listOfSortedLetters);
-//
-//    String str = listAsString(listOfSortedLetters);
-//
-//    Set<String> set = permutations(str);
-//
-//    List<String> list = new ArrayList<>(set);
-//    Collections.sort(list);
-//
-//    System.out.println("size: " + list.size());
-//    return list.indexOf(word);
-//
-//  }
-//
-//  private static Map<String, Integer> LETTERS_MAP = new HashMap<>();
-//
-//  static Integer numOfPerms(String input)
-//  {
-//    int size = input.length();
-//    Integer num;
-//
-//    LETTERS_MAP = getUniqueLetters(input);
-//
-//
-//
-//    if (input.length() > LETTERS_MAP.size()) { //duplicates
-//      Integer divideBy = 1;
-//      Integer total = 0;
-//      for(Integer value : LETTERS_MAP.values()) {
-//        total += value;
-////        System.out.println("divideBy: " + divideBy);
-//        divideBy = divideBy * permutation(value);
-//      }
-//
-//      num = permutation(total) / divideBy;
-//    } else { // no duplicates
-//      num = permutation(size);
-//    }
-//
-//    return num;
-//  }
-//
-//  //n!
-//  private static Integer ex(Integer n) {
-//    Integer nE = 1;
-//
-//    for (int i = n; i > 1; i--) {
-//      nE = nE * i;
-//      System.out.println("nE: " + nE);
-//      if (nE > MAX) {
-//        System.out.println("break;");
-//        nE = MAX;
-//        break;
-//      }
-//    }
-//
-//    return nE;
-//  }
-//
   private static Map<String, Integer> getUniqueLetters(String input) {
     String[] letters = input.split("");
     Map<String, Integer> map = new HashMap<>();
@@ -284,6 +139,16 @@ public class LexicalPermutation {
     return map;
   }
 
+  static void printPermutations(String word) {
+    Set<String> set = permutations(word);
+    List<String> list = new ArrayList<>(set);
+    Collections.sort(list);
+    int i = 0;
+    for(String s : list) {
+      System.out.println(i + "-" + s);
+      i++;
+    }
+  }
 
   static Set<String> permutations(String str)
   {
